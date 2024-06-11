@@ -33,7 +33,7 @@ class User extends BaseController
                     'logged_in' => TRUE,
                 ];
                 $session->set($login_data);
-                return redirect('admin/artikel');
+                return redirect()->to('admin/artikel');
             } else {
                 $session->setFlashdata("flash_msg", "Password salah.");
                 return redirect()->to('/user/login');
@@ -42,5 +42,10 @@ class User extends BaseController
             $session->setFlashdata("flash_msg", "email tidak terdaftar.");
             return redirect()->to('/user/login');
         }
+    }
+    public function logout()
+    {
+        session()->destroy();
+        return redirect()->to('/user/login');
     }
 }

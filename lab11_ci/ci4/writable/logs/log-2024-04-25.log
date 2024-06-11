@@ -1,0 +1,23 @@
+CRITICAL - 2024-04-25 16:11:33 --> ParseError: syntax error, unexpected '}', expecting ';'
+in APPPATH\Controllers\Home.php on line 10.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(290): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs\\lab11_php_ci\\ci4\\app\\Controllers\\Home.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(266): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Home')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Home')
+ 4 [internal function]: spl_autoload_call('App\\Controllers\\Home')
+ 5 SYSTEMPATH\CodeIgniter.php(899): class_exists('\\App\\Controllers\\Home', true)
+ 6 SYSTEMPATH\CodeIgniter.php(489): CodeIgniter\CodeIgniter->startController()
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\xampp\\htdocs\\lab11_php_ci\\ci4\\public\\index.php')
+CRITICAL - 2024-04-25 18:00:11 --> ParseError: syntax error, unexpected '}', expecting ';'
+in APPPATH\Controllers\Home.php on line 10.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(290): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs\\lab11_php_ci\\ci4\\app\\Controllers\\Home.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(266): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Home')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Home')
+ 4 [internal function]: spl_autoload_call('App\\Controllers\\Home')
+ 5 SYSTEMPATH\Commands\Utilities\Routes\ControllerMethodReader.php(44): ReflectionClass->__construct('App\\Controllers\\Home')
+ 6 SYSTEMPATH\Commands\Utilities\Routes\AutoRouteCollector.php(53): CodeIgniter\Commands\Utilities\Routes\ControllerMethodReader->read('App\\Controllers\\Home', 'Home', 'index')
+ 7 SYSTEMPATH\Commands\Utilities\Routes.php(172): CodeIgniter\Commands\Utilities\Routes\AutoRouteCollector->get()
+ 8 SYSTEMPATH\CLI\Commands.php(65): CodeIgniter\Commands\Utilities\Routes->run([])
+ 9 SYSTEMPATH\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('routes', [])
+10 ROOTPATH\spark(102): CodeIgniter\CLI\Console->run()

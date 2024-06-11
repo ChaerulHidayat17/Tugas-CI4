@@ -1,11 +1,17 @@
 <?= $this->include('template/admin_header'); ?>
-<table class="table">
+
+<form method="get" class="form-search">
+    <input type="text" name="q" value="<?= $q; ?>" placeholder="Cari data">
+    <input type="submit" value="Cari" class="btn btn-primary">
+</form>
+
+<table class="table table-bordered table-hover">
     <thead>
-        <tr>
-            <th>ID</th>
-            <th>Judul</th>
-            <th>Status</th>
-            <th>AKsi</th>
+        <tr class="table-primary">
+            <th scope="col">ID</th>
+            <th scope="col">Judul</th>
+            <th scope="col">Status</th>
+            <th scope="col">Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -15,15 +21,14 @@
                     <td><?= $row['id']; ?></td>
                     <td>
                         <b><?= $row['judul']; ?></b>
-                        <p><small><?= substr($row['isi'], 0, 100); ?></small></p>
+                        <p><small><?= substr($row['isi'], 0, 50); ?></small></p>
                     </td>
                     <td><?= $row['status']; ?></td>
                     <td>
-                        <a class="btn" href="<?= base_url('/admin/artikel/edit/' .
+                        <a class="btn btn-primary p-1" href="<?= base_url('/admin/artikel/edit/' .
                             $row['id']); ?>">Ubah</a>
-                        <a class="btn btn-danger" onclick="return confirm('Yakin
-menghapus data?');" href="<?= base_url('/admin/artikel/delete/' .
-                    $row['id']); ?>">Hapus</a>
+                        <a class="btn btn-danger p-1" onclick="return confirm('Yakin menghapus data?');" href="<?= base_url('/admin/artikel/delete/' .
+                            $row['id']); ?>">Hapus</a>
                     </td>
                 </tr>
             <?php endforeach; else: ?>
@@ -33,12 +38,13 @@ menghapus data?');" href="<?= base_url('/admin/artikel/delete/' .
         <?php endif; ?>
     </tbody>
     <tfoot>
-        <tr>
-            <th>ID</th>
-            <th>Judul</th>
-            <th>Status</th>
-            <th>AKsi</th>
+        <tr class="table-primary">
+            <th scope="col">ID</th>
+            <th scope="col">Judul</th>
+            <th scope="col">Status</th>
+            <th scope="col">Aksi</th>
         </tr>
     </tfoot>
 </table>
+<?= $pager->only(['q'])->links(); ?>
 <?= $this->include('template/admin_footer'); ?>

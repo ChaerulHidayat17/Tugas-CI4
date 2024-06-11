@@ -11,7 +11,7 @@
 
 namespace CodeIgniter\View;
 
-use CodeIgniter\Autoloader\FileLocatorInterface;
+use CodeIgniter\Autoloader\FileLocator;
 use CodeIgniter\View\Exceptions\ViewException;
 use Config\View as ViewConfig;
 use ParseError;
@@ -63,7 +63,7 @@ class Parser extends View
     /**
      * Stores any plugins registered at run-time.
      *
-     * @var         array<string, callable|list<string>|string>
+     * @var array<string, array<string>|callable|string>
      * @phpstan-var array<string, array<parser_callable_string>|parser_callable_string|parser_callable>
      */
     protected $plugins = [];
@@ -79,15 +79,10 @@ class Parser extends View
     /**
      * Constructor
      *
-     * @param FileLocatorInterface|null $loader
+     * @param FileLocator|null $loader
      */
-    public function __construct(
-        ViewConfig $config,
-        ?string $viewPath = null,
-        $loader = null,
-        ?bool $debug = null,
-        ?LoggerInterface $logger = null
-    ) {
+    public function __construct(ViewConfig $config, ?string $viewPath = null, $loader = null, ?bool $debug = null, ?LoggerInterface $logger = null)
+    {
         // Ensure user plugins override core plugins.
         $this->plugins = $config->plugins;
 
@@ -338,7 +333,7 @@ class Parser extends View
                     }
 
                     if (is_object($val)) {
-                        $val = 'Class: ' . $val::class;
+                        $val = 'Class: ' . get_class($val);
                     } elseif (is_resource($val)) {
                         $val = 'Resource';
                     }
@@ -468,7 +463,7 @@ class Parser extends View
 
         try {
             eval('?>' . $template . '<?php ');
-        } catch (ParseError) {
+        } catch (ParseError $e) {
             ob_end_clean();
 
             throw ViewException::forTagSyntaxError(str_replace(['?>', '<?php '], '', $template));
@@ -521,7 +516,7 @@ class Parser extends View
         return preg_replace_callback($pattern, function ($matches) use ($content, $escape) {
             // Check for {! !} syntax to not escape this one.
             if (
-                str_starts_with($matches[0], $this->leftDelimiter . '!')
+                strpos($matches[0], $this->leftDelimiter . '!') === 0
                 && substr($matches[0], -1 - strlen($this->rightDelimiter)) === '!' . $this->rightDelimiter
             ) {
                 $escape = false;
@@ -568,11 +563,11 @@ class Parser extends View
             }
         }
         // No pipes, then we know we need to escape
-        elseif (! str_contains($key, '|')) {
+        elseif (strpos($key, '|') === false) {
             $escape = 'html';
         }
         // If there's a `noescape` then we're definitely false.
-        elseif (str_contains($key, 'noescape')) {
+        elseif (strpos($key, 'noescape') !== false) {
             $escape = false;
         }
         // If no `esc` filter is found, then we'll need to add one.
@@ -617,11 +612,10 @@ class Parser extends View
             }
 
             // Filter it....
-            // We can't know correct param types, so can't set `declare(strict_types=1)`.
             $replace = $this->config->filters[$filter]($replace, ...$param);
         }
 
-        return (string) $replace;
+        return $replace;
     }
 
     // Plugins
